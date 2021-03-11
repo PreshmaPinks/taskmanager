@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import TaskCard from "./TaskCard.jsx";
+import TaskData from "./TaskData";
 
 function App() {
+  const [tasks, setTasks] = useState(null);
+
+  const changeStatus = (e, id, status) => {
+    const task = tasks[status].find((item) => id === item.id);
+    const item = { ...task, status: e.target.value };
+    let updatedTasks = { ...tasks };
+    updatedTasks[e.target.value] = [...updatedTasks[e.target.value], item]; 
+    updatedTasks[status] = updatedTasks[status].filter((val) => val.id !== id); 
+    setTasks(updatedTasks);
+  };
+
+  useEffect(() => {
+    setTasks(TaskData);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="heading">
+        <h1>Sprint Task Manager</h1>
+      </div>
+      {tasks && (
+        <div className="content">
+          {Object.keys(tasks).map((val) => (
+            <div key={val}>
+              <div>
+                {val} {tasks[val].length}
+              </div>
+              {tasks[val] &&
+                tasks[val].map((item) => (
+                  <TaskCard
+                    data={item}
+                    onStatusChange={changeStatus}
+                    taskOptions={Object.keys(tasks)}
+                    key={item.id}
+                  />
+                ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
