@@ -2,5 +2,3 @@ const TaskData = {"proposed":[{"id":"813","title":"Unit Tests for Task Manager",
 ;
 
 export default TaskData;
-
-

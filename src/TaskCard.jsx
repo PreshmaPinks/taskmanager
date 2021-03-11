@@ -1,24 +1,13 @@
 import React from "react";
 import "./TaskCard.css";
+import Select from './Select.jsx';
+
 function TaskCard(props) {
   return (
     <div className={`card ${props.data.status}`}>
       <div>{props.data.title}</div>
       <div>
-        <select
-          value={props.data.status}
-          onChange={(event) =>
-            props.onStatusChange(event, props.data.id, props.data.status)
-          }
-        >
-          {props.taskOptions.map((item) => {
-            return (
-              <option value={item} key={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
+       <Select data={props.data} taskOptions={props.taskOptions} onStatusChange={props.onStatusChange}/>
       </div>
     </div>
   );
